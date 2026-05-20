@@ -6,7 +6,7 @@
 <div id="onboarding" class="onboarding hidden"><div class="container"><header><h1>Meu Treino</h1><div class="start-date">Simples por fora. Inteligente por dentro.</div></header><div class="box"><h2>Configuração inicial</h2><label>Seu nome</label><input id="obNome" placeholder="Ex: João"><label>Data de início</label><input id="obData" type="date"><label>Nível</label><div class="option-grid" id="obNivel"></div><label>Qual resultado você mais procura?</label><div class="option-grid" id="obObjetivo"></div><label>Existe alguma região que quer dar mais atenção?</label><div class="option-grid" id="obFoco"></div><div class="input-row"><div><label>Peso atual</label><input id="obPeso" inputmode="decimal" placeholder="Ex: 102"></div><div><label>Meta de peso <span class="small">(opcional)</span></label><input id="obMetaPeso" inputmode="decimal" placeholder="Ex: 95"></div></div><p class="small">Usamos peso/meta apenas para adaptar impacto, cardio e treino. Não é app de dieta.</p><label>Tempo padrão por treino</label><select id="obTempo" onchange="aplicarTempoPadrao(this.value)"><option value="45">45 min</option><option value="60" selected>60 min</option><option value="90">90 min</option></select><label>Tempo por dia</label><div id="obDias"></div><label>Alguma região merece mais atenção?</label><div class="option-grid" id="obLimitacoes"></div><label>Divisão de treino</label><select id="obDivisao" onchange="avaliarDivisaoInicial()"><option value="ABC">ABC</option><option value="ABCD">ABCD</option><option value="ABCDE">ABCDE</option></select><div id="divisaoSugestao" class="security-note hidden"></div><button class="btn-yellow full" onclick="finalizarOnboarding()">Gerar meu treino</button></div></div></div>
 <header><h1>Meu Treino</h1><div class="start-date">Início: <b id="dataInicioTexto"></b></div></header><div class="container"><section id="pageTreino"><div id="timerFloat" class="timer-float hidden"><div class="timer-head"><div><div id="timerText">01:30</div><div id="timerHint" class="timer-hint">Descanso sugerido</div></div><div class="timer-controls"><button class="btn-green" onclick="startTimer()">Iniciar</button><button class="btn-red" onclick="stopTimer()">Parar</button></div></div><div class="timer-quick"><button onclick="setTimer(30)">30s</button><button onclick="setTimer(45)">45s</button><button onclick="setTimer(60)">60s</button><button onclick="setTimer(90)">90s</button><button onclick="setTimer(120)">120s</button></div></div><div class="box"><div class="badge-row" id="treinoBadges"></div><h2 id="tituloTreino"></h2><div id="avisoAdaptacao"></div><div id="progressoTreino"></div><div id="listaExercicios"></div><div id="cardioTreino" class="cardio"></div><button class="btn-green full" onclick="concluirCardio()">Concluir cardio</button>
   <button class="btn-yellow full" onclick="finalizarTreinoAtual()">Finalizar treino</button>
-  <button class="btn-dark full" onclick="proximoTreino()">Próximo treino</button></div></section><section id="pageEvolucao" class="hidden"><div class="box"><h2>Semana</h2><div id="resumoSemana"></div></div><div class="box"><h2>Evolução corporal</h2><div class="input-row"><div><label>Peso atual</label><input id="pesoAtual" inputmode="decimal"></div><div><label>Meta de peso</label><input id="metaPeso" inputmode="decimal" oninput="localStorage.setItem('metaPeso',this.value)"></div></div><button class="btn-green full" onclick="salvarPeso()">Salvar peso</button><canvas id="graficoPeso" width="360" height="190"></canvas><div id="historicoPeso"></div></div><div class="box"><h2>Recordes pessoais</h2><div id="listaPRs"></div></div></section><section id="pageConfig" class="hidden"><div class="box"><h2>Configuração geral</h2><label>Nome</label><input id="configNome" onchange="localStorage.setItem('nomeUsuario',this.value)"><label>Data de início</label><input id="configDataInicio" type="date" onchange="localStorage.setItem('dataInicio',this.value);dataInicioTexto.textContent=brDate(this.value)"><label>Timer</label><select id="timerAtivo" onchange="localStorage.setItem('timerAtivo',this.value);renderTimer()"><option value="sim">Ligado</option><option value="nao">Desligado</option></select><label>Som do timer</label><select id="timerSom" onchange="localStorage.setItem('timerSom',this.value)"><option value="sim">Ligado</option><option value="nao">Desligado</option></select></div><div class="box"><h2>Editar treino</h2><label>Treino</label><select id="editTreino" onchange="renderEditor()"></select><label>Exercício</label><select id="editExercicio" onchange="carregarEditor()"></select><label>Nome</label><input id="editNome"><div class="input-row"><div><label>Séries</label><input id="editSeries"></div><div><label>Reps</label><input id="editReps"></div></div><button class="btn-green full" onclick="salvarEdicao()">Salvar exercício</button><button class="btn-red full" onclick="removerExercicio()">Remover exercício</button></div><div class="box"><h2>Manutenção</h2><button class="btn-red full" onclick="limparCargasProgressao()">Apagar cargas e progressões</button><button class="btn-dark full" onclick="refazerConfiguracao()">Refazer configuração inicial</button></div></section></div><nav class="nav"><button id="navTreino" onclick="mostrarPagina('Treino')">🏋️<br>Treino</button><button id="navEvolucao" onclick="mostrarPagina('Evolucao')">📈<br>Evolução</button><button id="navConfig" onclick="mostrarPagina('Config')">⚙️<br>Config</button></nav><div id="modal" class="modal hidden" onclick="fecharModal(event)"><div class="modal-card"><h3 id="modalTitulo"></h3><p id="modalTexto" class="small"></p><div id="modalExtra"></div><button class="btn-yellow full" onclick="fecharModal()">Entendi</button></div></div>
+  <button class="btn-dark full" onclick="proximoTreino()">Próximo treino</button></div></section><section id="pageEvolucao" class="hidden"><div class="box"><h2>Semana</h2><div id="resumoSemana"></div></div><div class="box"><h2>Evolução corporal</h2><div class="input-row"><div><label>Peso atual</label><input id="pesoAtual" inputmode="decimal"></div><div><label>Meta de peso</label><input id="metaPeso" inputmode="decimal" oninput="localStorage.setItem('metaPeso',this.value)"></div></div><button class="btn-green full" onclick="salvarPeso()">Salvar peso</button><canvas id="graficoPeso" width="360" height="190"></canvas><div id="historicoPeso"></div></div><div class="box"><h2>Recordes pessoais</h2><div id="listaPRs"></div></div></section><section id="pageConfig" class="hidden"><div class="box"><h2>Configuração geral</h2><label>Nome</label><input id="configNome" onchange="localStorage.setItem('nomeUsuario',this.value)"><label>Data de início</label><input id="configDataInicio" type="date" onchange="localStorage.setItem('dataInicio',this.value);dataInicioTexto.textContent=brDate(this.value)"><label>Timer</label><select id="timerAtivo" onchange="localStorage.setItem('timerAtivo',this.value);renderTimer()"><option value="sim">Ligado</option><option value="nao">Desligado</option></select><label>Som do timer</label><select id="timerSom" onchange="localStorage.setItem('timerSom',this.value)"><option value="sim">Ligado</option><option value="nao">Desligado</option></select></div><div class="box"><h2>Editar treino</h2><label>Treino</label><select id="editTreino" onchange="renderEditor()"></select><label>Exercício</label><select id="editExercicio" onchange="carregarEditor()"></select><label>Nome</label><input id="editNome"><div class="input-row"><div><label>Séries</label><input id="editSeries"></div><div><label>Reps</label><input id="editReps"></div></div><button class="btn-green full" onclick="salvarEdicao()">Salvar exercício</button><button class="btn-red full" onclick="removerExercicio()">Excluir exercício selecionado</button><button class="btn-red full" onclick="excluirTreinoAtualEditor()">Excluir treino selecionado</button><button class="btn-dark full" onclick="excluirTodosTreinos()">Excluir todos os treinos</button></div><div class="box"><h2>Manutenção</h2><button class="btn-red full" onclick="limparCargasProgressao()">Apagar cargas e progressões</button><button class="btn-dark full" onclick="refazerConfiguracao()">Refazer configuração inicial</button></div></section></div><nav class="nav"><button id="navTreino" onclick="mostrarPagina('Treino')">🏋️<br>Treino</button><button id="navEvolucao" onclick="mostrarPagina('Evolucao')">📈<br>Evolução</button><button id="navConfig" onclick="mostrarPagina('Config')">⚙️<br>Config</button></nav><div id="modal" class="modal hidden" onclick="fecharModal(event)"><div class="modal-card"><h3 id="modalTitulo"></h3><p id="modalTexto" class="small"></p><div id="modalExtra"></div><button class="btn-yellow full" onclick="fecharModal()">Entendi</button></div></div>
 <script>
 const OBJETIVOS=[["hipertrofia","💪 Ganhar massa","Aumentar massa muscular e melhorar aparência física."],["emagrecimento","🔥 Emagrecer","Reduzir gordura e melhorar condicionamento."],["forca","🏋️ Ficar mais forte","Evoluir cargas, força e desempenho."],["manutencao","❤️ Manter saúde","Manter constância, saúde e condicionamento."]];
 const NIVEIS=[["iniciante","Iniciante","Está começando ou ainda busca segurança nos exercícios. Até 1 ano é só referência."],["intermediario","Intermediário","Já tem consistência e domínio básico. 1 a 3 anos é só referência."],["avancado","Avançado","Boa execução, tolerância a treinos intensos e experiência. 3+ anos é só referência."]];
@@ -59,73 +59,94 @@ function carregarEstado(){divisao=localStorage.getItem('divisao')||getPerfil().d
 function renderTreino(){let t=treinos[treinoAtual];if(!t)return;tituloTreino.textContent=t.titulo+` · ${t.tempo} min`;avisoAdaptacao.innerHTML=t.aviso?`<div class="security-note">⚠ ${t.aviso}</div>`:'';listaExercicios.innerHTML='';t.exercicios.forEach((ex,i)=>{let id=treinoAtual+'_'+ex.id,cargaKey='carga_'+id,prKey='pr_'+id,feitoKey='feito_'+id,carga=localStorage.getItem(cargaKey)||'',feito=localStorage.getItem(feitoKey)==='sim';let term=Object.keys(TERMOS).filter(k=>String(ex.reps).toLowerCase().includes(k)).map(k=>`<span class="info-chip" onclick="openModal('${k.toUpperCase()}','${TERMOS[k]}')">?</span>`).join('');let grip=ex.pegada?`<div class="grip-inline" onclick="abrirPegada('${ex.pegada}')"><img class="grip-card-img" src="grip-${ex.pegada}.png"><span>Pegada: <b>${ex.pegada}</b></span></div>`:'';let tags=`<div class="tag-row"><span class="tag">${ex.tipo}</span><span class="tag">${ex.equip}</span><span class="tag">Descanso ${ex.descanso}s</span></div>`;listaExercicios.innerHTML+=`<div class="exercise" id="card_${safe(id)}"><div class="exercise-row"><button class="check ${feito?'done':''}" onclick="toggleFeito('${feitoKey}',this,${i})">${feito?'✓':''}</button><div class="exercise-main"><div class="exercise-title">${i+1}. ${ex.nome}</div><div class="reps">${ex.series} séries x ${ex.reps} ${term}</div>${tags}${grip}${adaptText(ex)}<div class="input-line"><span>Carga</span><input value="${carga}" onchange="salvarCarga('${ex.nome}','${cargaKey}','${prKey}',this.value,'${safe(id)}')"></div><div class="actions"><button class="btn-red" onclick="abrirVideo('${ex.youtube}')">Ver execução</button><button class="btn-dark" onclick="detalhes('${treinoAtual}',${i})">Detalhes</button></div><div id="medal_${safe(cargaKey)}"></div></div></div></div>`});cardioTreino.classList.toggle('done',localStorage.getItem('cardio_'+treinoAtual)==='sim');cardioTreino.innerHTML=`${t.cardio.texto} <span class="info-chip" onclick="openModal('Cardio','${t.cardio.info}')">?</span>`;renderProgresso();setTimer(recommendedForCurrent(),false)}function adaptText(ex){let p=getPerfil(),msg=[];(p.limitacoes||[]).forEach(l=>{if(ex.limitacoes[l]&&ex.limitacoes[l]<0)msg.push('Atenção para '+l+': use amplitude confortável e carga moderada.')});return msg.length?`<div class="adapt">⚠ ${msg.join(' ')}</div>`:''}function detalhes(treino,idx){let ex=treinos[treino].exercicios[idx],extra=`<div class="history-item"><span>Músculos principais</span><b>${ex.musculos.join(', ')}</b></div><div class="history-item"><span>Secundários</span><b>${ex.secundarios.join(', ')||'—'}</b></div><div class="history-item"><span>Tipo</span><b>${ex.tipo}</b></div><div class="history-item"><span>Equipamento</span><b>${ex.equip}</b></div><div class="history-item"><span>Descanso</span><b>${ex.descanso}s</b></div><p class="small"><b>Execução:</b> ${ex.execucao}</p><p class="small"><b>Erro comum:</b> ${ex.erros}</p>`;openModal(ex.nome,'Mini guia do exercício.',extra)}function abrirPegada(p){let txt={pronada:'Palmas para baixo/para frente.',supinada:'Palmas para cima/para você.',neutra:'Palmas uma de frente para a outra.'}[p]||'Tipo de pegada.';openModal('Pegada '+p,txt,`<img class="grip-img" src="grip-${p}.png">`)}function abrirVideo(q){window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q),'_blank')}function toggleFeito(key,btn,idx){let on=localStorage.getItem(key)==='sim';if(on){localStorage.removeItem(key);btn.className='check';btn.textContent='';localStorage.removeItem('treinoConcluido_'+treinoAtual)}else{localStorage.setItem(key,'sim');btn.className='check done';btn.textContent='✓';let next=recommendedForIndex(idx+1);if(next){setTimer(next,false);toast(`Descanso sugerido para o próximo: ${next}s`)}}renderProgresso();renderSemana()}function recommendedForCurrent(){let t=treinos[treinoAtual];if(!t)return 90;let idx=t.exercicios.findIndex(ex=>localStorage.getItem('feito_'+treinoAtual+'_'+ex.id)!=='sim');return idx>=0?t.exercicios[idx].descanso:(t.exercicios[0]?.descanso||90)}function recommendedForIndex(idx){let t=treinos[treinoAtual];return t?.exercicios[idx]?.descanso||null}
 function salvarCarga(nome,cargaKey,prKey,valor,cardId){let n=num(valor),base='baseline_'+prKey,medal=document.getElementById('medal_'+safe(cargaKey));localStorage.setItem(cargaKey,valor);if(medal)medal.innerHTML='';if(isNaN(n)){renderPRs();return}if(localStorage.getItem(base)===null||localStorage.getItem(prKey)===null){localStorage.setItem(base,String(n));localStorage.setItem(prKey,String(n));renderPRs();return}let old=parseFloat(localStorage.getItem(prKey)||'0');if(n>old){localStorage.setItem(prKey,String(n));let h=JSON.parse(localStorage.getItem('historicoPR')||'[]');h.push({data:new Date().toLocaleDateString('pt-BR'),nome,peso:n});localStorage.setItem('historicoPR',JSON.stringify(h));if(medal)medal.innerHTML=`<div class="medal">🏆 Novo PR! ${nome}: ${n}kg</div>`;let card=document.getElementById('card_'+cardId);if(card){card.classList.add('pr-glow');setTimeout(()=>card.classList.remove('pr-glow'),1500)}toast(`🏆 Novo PR — ${nome}: ${n}kg`);vibrar([80,50,130])}renderPRs()}
 function setTimer(s,announce=true){timerSec=s;updateTimer(s);timerHint.textContent=`Descanso sugerido: ${s}s`;if(announce)toast(`⏱ Descanso ajustado — ${s}s`)}function updateTimer(s){timerText.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')}function startTimer(){if('Notification'in window&&Notification.permission==='default'){Notification.requestPermission()}clearInterval(timerInterval);let s=timerSec||90;updateTimer(s);toast(`Descanso iniciado — ${s}s`);timerInterval=setInterval(()=>{s--;updateTimer(s);if(s<=0){clearInterval(timerInterval);if((localStorage.getItem('timerSom')||'sim')==='sim')beep();vibrar([120,70,120]);if('Notification'in window&&Notification.permission==='granted'){try{new Notification('Meu Treino',{body:'Descanso finalizado.'})}catch(e){}}toast('Descanso finalizado.')}},1000)}function stopTimer(){clearInterval(timerInterval);updateTimer(timerSec||90)}function renderTimer(){timerFloat.classList.toggle('hidden',(localStorage.getItem('timerAtivo')||'sim')!=='sim'||pageTreino.classList.contains('hidden'))}function setupDragTimer(){timerFloat.onpointerdown=(ev)=>{if(ev.target.tagName==='BUTTON')return;dragState={x:ev.clientX,y:ev.clientY,left:timerFloat.offsetLeft,top:timerFloat.offsetTop};timerFloat.setPointerCapture(ev.pointerId)};timerFloat.onpointermove=(ev)=>{if(!dragState)return;let nx=dragState.left+(ev.clientX-dragState.x),ny=dragState.top+(ev.clientY-dragState.y);nx=Math.max(8,Math.min(window.innerWidth-timerFloat.offsetWidth-8,nx));ny=Math.max(8,Math.min(window.innerHeight-timerFloat.offsetHeight-80,ny));timerFloat.style.left=nx+'px';timerFloat.style.right='auto';timerFloat.style.top=ny+'px';timerFloat.style.bottom='auto';timerFloat.style.width='calc(100% - 24px)';timerFloat.style.maxWidth='360px'};timerFloat.onpointerup=()=>{dragState=null}}
-function renderSelects(){editTreino.innerHTML=letrasDiv().map(l=>`<option value="${l}">Treino ${l}</option>`).join('');editTreino.value=treinoAtual;renderEditor()}function renderEditor(){let l=editTreino.value||treinoAtual,t=treinos[l];if(!t)return;editExercicio.innerHTML=t.exercicios.map((e,i)=>`<option value="${i}">${i+1}. ${e.nome}</option>`).join('');carregarEditor()}function carregarEditor(){let l=editTreino.value||treinoAtual,i=parseInt(editExercicio.value||0),ex=treinos[l]?.exercicios[i];editNome.value=ex?ex.nome:'';editSeries.value=ex?ex.series:'';editReps.value=ex?ex.reps:''}function salvarEdicao(){let l=editTreino.value,i=parseInt(editExercicio.value||0),ex=treinos[l].exercicios[i];ex.nome=editNome.value;ex.series=editSeries.value;ex.reps=editReps.value;saveTreinos();renderTreino();toast('Exercício atualizado.')}function removerExercicio(){openModal('Remover exercício','Tem certeza?',`<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-red" onclick="confirmarRemover()">Remover</button></div>`)}function confirmarRemover(){let l=editTreino.value,i=parseInt(editExercicio.value||0);treinos[l].exercicios.splice(i,1);saveTreinos();fecharModal();renderAll()}
 
+function renderSelects(){
+ let atual=editTreino.value||treinoAtual||letrasDiv()[0];
+ editTreino.innerHTML=letrasDiv().map(l=>`<option value="${l}">Treino ${l}</option>`).join("");
+ if(treinos[atual]) editTreino.value=atual;
+ else editTreino.value=letrasDiv().find(l=>treinos[l])||letrasDiv()[0];
+ renderEditor();
+}
+function renderEditor(){
+ let l=editTreino.value||treinoAtual;
+ let t=treinos[l];
+ if(!t){editExercicio.innerHTML="";editNome.value="";editSeries.value="";editReps.value="";return;}
+ editExercicio.innerHTML=t.exercicios.map((e,i)=>`<option value="${i}">${i+1}. ${e.nome}</option>`).join("");
+ if(t.exercicios.length===0){
+   editNome.value="";editSeries.value="";editReps.value="";
+   return;
+ }
+ if(Number(editExercicio.value)>=t.exercicios.length) editExercicio.value=Math.max(0,t.exercicios.length-1);
+ carregarEditor();
+}
+function carregarEditor(){
+ let l=editTreino.value||treinoAtual;
+ let i=parseInt(editExercicio.value||0);
+ let ex=treinos[l]?.exercicios[i];
+ editNome.value=ex?ex.nome:"";
+ editSeries.value=ex?ex.series:"";
+ editReps.value=ex?ex.reps:"";
+}
+function salvarEdicao(){
+ let l=editTreino.value||treinoAtual;
+ let i=parseInt(editExercicio.value||0);
+ if(!treinos[l]||!treinos[l].exercicios[i]){openModal("Atenção","Selecione um exercício válido.");return;}
+ let ex=treinos[l].exercicios[i];
+ ex.nome=editNome.value;
+ ex.series=editSeries.value;
+ ex.reps=editReps.value;
+ saveTreinos();
+ if(l===treinoAtual) renderTreino();
+ renderEditor();
+ toast("Exercício atualizado.");
+}
+function removerExercicio(){
+ let l=editTreino.value||treinoAtual;
+ let i=parseInt(editExercicio.value||0);
+ if(!treinos[l]||!treinos[l].exercicios[i]){openModal("Atenção","Selecione um exercício para excluir.");return;}
+ let nome=treinos[l].exercicios[i].nome;
+ openModal("Excluir exercício",`Deseja excluir "${nome}" do Treino ${l}?`,
+ `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-red" onclick="confirmarRemoverExercicio('${l}',${i})">Excluir</button></div>`);
+}
+function confirmarRemoverExercicio(l,i){
+ if(!treinos[l])return;
+ treinos[l].exercicios.splice(i,1);
+ saveTreinos();
+ fecharModal();
+ editTreino.value=l;
+ renderEditor();
+ if(l===treinoAtual) renderTreino();
+ toast("Exercício excluído.");
+}
+function excluirTreinoAtualEditor(){
+ let l=editTreino.value||treinoAtual;
+ if(!treinos[l]){openModal("Atenção","Treino não encontrado.");return;}
+ openModal("Excluir treino",`Deseja excluir todos os exercícios do Treino ${l}? As cargas salvas não serão apagadas.`,
+ `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-red" onclick="confirmarExcluirTreino('${l}')">Excluir treino ${l}</button></div>`);
+}
+function confirmarExcluirTreino(l){
+ if(!treinos[l])return;
+ treinos[l].exercicios=[];
+ saveTreinos();
+ fecharModal();
+ editTreino.value=l;
+ renderEditor();
+ if(l===treinoAtual) renderTreino();
+ toast(`Treino ${l} excluído.`);
+}
+function excluirTodosTreinos(){
+ openModal("Excluir todos os treinos","Deseja excluir todos os exercícios de todos os treinos? As cargas salvas não serão apagadas.",
+ `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-red" onclick="confirmarExcluirTodosTreinos()">Excluir todos</button></div>`);
+}
+function confirmarExcluirTodosTreinos(){
+ Object.keys(treinos).forEach(k=>{treinos[k].exercicios=[]});
+ saveTreinos();
+ fecharModal();
+ renderEditor();
+ renderTreino();
+ toast("Todos os treinos foram excluídos.");
+}
 
-function hojeKey(){return new Date().toISOString().slice(0,10)}
-function sessaoKey(prefix, treino){return prefix+"_"+hojeKey()+"_"+treino}
-function registroUnico(arr,key){return arr.some(x=>x.key===key)}
-function limparChecksDoTreino(treino){
- let t=treinos[treino]; if(!t)return;
- t.exercicios.forEach(ex=>localStorage.removeItem("feito_"+treino+"_"+ex.id));
- localStorage.removeItem("treinoConcluido_"+treino);
-}
-function estadoConclusaoTreino(){
- let t=treinos[treinoAtual]; if(!t)return {total:0,done:0,missing:0};
- let total=t.exercicios.length;
- let done=t.exercicios.filter(ex=>localStorage.getItem("feito_"+treinoAtual+"_"+ex.id)==="sim").length;
- return {total,done,missing:total-done};
-}
-function registrarTreinoSessao(forcarNova){
- let st=estadoConclusaoTreino();
- let baseKey=sessaoKey("treino",treinoAtual);
- let h=JSON.parse(localStorage.getItem("historicoTreinos")||"[]");
- if(registroUnico(h,baseKey) && !forcarNova){
-   openModal("Treino já registrado","Você já finalizou este treino hoje. Deseja registrar uma nova sessão mesmo assim?",
-   `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-yellow" onclick="fecharModal();registrarTreinoSessao(true)">Registrar nova sessão</button></div>`);
-   return;
- }
- let key=forcarNova ? baseKey+"_"+Date.now() : baseKey;
- h.push({key,data:new Date().toLocaleDateString("pt-BR"),treino:treinoAtual,exercicios:st.done,total:st.total});
- localStorage.setItem("historicoTreinos",JSON.stringify(h));
- limparChecksDoTreino(treinoAtual);
- toast("✅ Treino finalizado e enviado para Evolução!");
- vibrar([80,50,120]);
- renderTreino();renderSemana();
-}
-function finalizarTreinoAtual(confirmarIncompleto){
- let st=estadoConclusaoTreino();
- if(st.done===0){
-   openModal("Finalizar treino","Você ainda não marcou nenhum exercício como feito. Marque os exercícios concluídos antes de finalizar.");
-   return;
- }
- if(st.missing>=3){
-   openModal("Treino incompleto",`Ainda faltam ${st.missing} exercícios. Finalize depois de concluir a maior parte do treino.`);
-   return;
- }
- if(st.missing>0 && st.missing<=2 && !confirmarIncompleto){
-   openModal("Finalizar mesmo assim?",`Faltam ${st.missing} exercício(s) para concluir. Deseja finalizar mesmo assim?`,
-   `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-yellow" onclick="fecharModal();finalizarTreinoAtual(true)">Finalizar</button></div>`);
-   return;
- }
- registrarTreinoSessao(false);
-}
-function registrarCardioSessao(forcarNova){
- let baseKey=sessaoKey("cardio",treinoAtual);
- let h=JSON.parse(localStorage.getItem("historicoCardio")||"[]");
- if(registroUnico(h,baseKey) && !forcarNova){
-   openModal("Cardio já registrado","Você já registrou este cardio hoje. Deseja registrar uma nova sessão mesmo assim?",
-   `<div class="confirm-actions"><button class="btn-dark" onclick="fecharModal()">Cancelar</button><button class="btn-yellow" onclick="fecharModal();registrarCardioSessao(true)">Registrar novo cardio</button></div>`);
-   return;
- }
- let key=forcarNova ? baseKey+"_"+Date.now() : baseKey;
- h.push({key,data:new Date().toLocaleDateString("pt-BR"),treino:treinoAtual});
- localStorage.setItem("historicoCardio",JSON.stringify(h));
- localStorage.removeItem("cardio_"+treinoAtual);
- toast("✅ Cardio concluído e enviado para Evolução!");
- vibrar(80);
- renderTreino();renderSemana();
-}
 function concluirCardio(){
  registrarCardioSessao(false);
 }
